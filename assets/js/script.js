@@ -1,10 +1,6 @@
 const button = document.querySelector('button')
 const select = document.querySelector('.switch--currency')
 
-const dolar = 5.24
-const euro = 5.48
-const bitcoin = 87945.42
-
 const switchCurrency = () => {
     const imgCurrency = document.querySelector('.img-exchange')
     const currencyType = document.querySelector('.euro-dolar')
@@ -24,10 +20,16 @@ const switchCurrency = () => {
     convertReal()
 }
 
-const convertReal = () => {
+const convertReal = async () => {
     const valueReal = document.querySelector('input').value
     const currencyReal = document.querySelector('.currency-value--real')
     const currencyValueType = document.querySelector('.currency-value--type')
+
+    const data = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL").then(resp => resp.json())
+    
+    const dolar = data.USDBRL.high
+    const euro = data.EURBRL.high
+    const bitcoin = data.BTCBRL.high * 1000
 
     currencyReal.innerHTML = new Intl.NumberFormat('pt-BR', {
         style: 'currency',
